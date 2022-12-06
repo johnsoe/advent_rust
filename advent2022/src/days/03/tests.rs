@@ -1,5 +1,4 @@
 use anyhow::Result;
-use itertools::Itertools;
 use crate::days::three::{part_one, part_two};
 
 #[test]
