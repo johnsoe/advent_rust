@@ -1,31 +1,33 @@
+use anyhow::{Result, anyhow};
+
 #[cfg(test)]
 mod tests;
 
-pub fn part_one(input: &str) {
-    let mut x = 0;
-    for c in input.chars() {
-        match c {
-            '(' => x += 1,
-            ')' => x -= 1,
-            _ => {},
-        }
-    }
-    println!("{x}");
+pub fn part_one(input: &str) -> Result<i32> {
+    Ok(
+        input.chars().map(
+            |c| match c {
+                '(' => 1,
+                ')' => -1,
+                _ => 0,
+            }
+        ).sum()
+    )
 }
 
-pub fn part_two(input: &str) {
-    let mut x = 0;
-    let mut index = 1;
-    for c in input.chars() {
-        match c {
-            '(' => x += 1,
-            ')' => x -= 1,
-            _ => {},
-        }
-        if x < 0 {
-            break;
-        }
-        index += 1;
-    }
-    println!("{index}");
+pub fn part_two(input: &str) -> Result<usize> {
+    
+    let index = input
+        .chars()
+        .scan(0, |total, c| {
+            *total += match c {
+                '(' => 1,
+                ')' => -1,
+                _ => 0,
+            };
+            Some(*total)
+        })
+        .position(|total| total < 0)
+        .ok_or_else(|| anyhow!("never found negative value"));
+    Ok(index? + 1)
 }
