@@ -1,8 +1,6 @@
 #[cfg(test)]
 mod tests;
 
-use std::str::Chars;
-
 pub fn part_one(input: &str) {
     let mut x = 0;
     for c in input.chars() {
